@@ -94,7 +94,7 @@ while continue != "no" && continue != "n"
     puts "Do you want to |play| or |quit|?"
 
     input = gets.chomp
-    while input != "play" && input != "quite"
+    while input != "play" && input != "quit"
         "Do you want to |play| or |quit|?"
     end
 
@@ -102,18 +102,24 @@ while continue != "no" && continue != "n"
         puts "you are playing"
     elsif input == "quit"
         puts "you are quitting"
-        exit(true)
+        continue="no"
+        return
     end
 
-    player1 = Fighter.new "Seong Gi-Hun"
+    puts "Please enter your name"
+    name = gets.chomp!
+
+    puts "Welcome #{name}, you are player #456\nYou will fight player #218.\nPress Enter to Continue"
+    gets.chomp
+    player1 = Fighter.new "456"
     player1.stats
 
-    player2 = Fighter.new "Cho Sang-Woo"
+    player2 = Fighter.new "218"
     player2.stats
 
-    counter = 1
-    while counter < 3
-        puts "Training Week ##{counter}.\nWould you like to practice |weights|, |cardio|, or |blackjack|?"
+    training_counter = 1
+    while training_counter < 11
+        puts "Training Week ##{training_counter}.\nWould you like to practice |weights|, |cardio|, or |blackjack|?"
 
         activity = gets.chomp!.downcase
         while activity != "weights" && activity != "cardio" && activity != "blackjack"
@@ -124,27 +130,26 @@ while continue != "no" && continue != "n"
         activity == "weights" ? Dojo.train_weights(player1) : activity == "cardio" ? Dojo.train_cardio(player1) : Dojo.train_blackjack(player1)
         
         ## Trains AI based on random ints.
-        ai_activity = rand(1...3)
+        ai_activity = rand(1..3)
         ai_activity == 1 ? Dojo.train_weights(player2) : ai_activity == 2 ? Dojo.train_cardio(player2) : Dojo.train_blackjack(player2)
 
         player1.stats
         player2.stats
-        counter += 1
-        p counter
+        training_counter += 1
     end
 
     puts "Time to play the game! Press enter to continue."
     gets.chomp
 
-    counter = 1
+    round_counter = 1
     while player1.life > 0 && player2.life > 0
-        p "Round #{counter} press enter to attack"
+        p "Round #{round_counter} press enter to attack"
         gets.chomp
         player1.attack(player2)
         player2.attack(player1)
         player1.life_remaining
         player2.life_remaining
-        counter += 1
+        round_counter += 1
     end
 
     if player1.life < player2.life
