@@ -43,7 +43,7 @@ class Fighter
     end
 
     def life_remaining
-        puts "#{self.name} has #{self.life} remaining."
+        puts "#{self.name} has #{self.life} life remaining."
     end
 end
 
@@ -88,68 +88,82 @@ end
 #######################
 ## GAMEPLAY
 #######################
+continue = "yes"
 
-puts "Do you want to |play| or |quit|?"
+while continue != "no" && continue != "n"
+    puts "Do you want to |play| or |quit|?"
 
-input = gets.chomp
-while input != "play" && input != "quite"
-    "Do you want to |play| or |quit|?"
-end
-
-if input == "play"
-    puts "you are playing"
-elsif input == "quit"
-    puts "you are quitting"
-    exit(true)
-end
-
-player1 = Fighter.new "Seong Gi-Hun"
-player1.stats
-
-player2 = Fighter.new "Cho Sang-Woo"
-player2.stats
-
-counter = 1
-while counter < 3
-    puts "Training Week ##{counter}.\nWould you like to practice |weights|, |cardio|, or |blackjack|?"
-
-    activity = gets.chomp!.downcase
-    while activity != "weights" && activity != "cardio" && activity != "blackjack"
-        p "Invalid selection. Would you like to practice |weights|, |cardio|, or |blackjack|?"
-        activity = gets.chomp!.downcase
+    input = gets.chomp
+    while input != "play" && input != "quite"
+        "Do you want to |play| or |quit|?"
     end
 
-    activity == "weights" ? Dojo.train_weights(player1) : activity == "cardio" ? Dojo.train_cardio(player1) : Dojo.train_blackjack(player1)
-    
-    ## Trains AI based on random ints.
-    ai_activity = rand(1...3)
-    ai_activity == 1 ? Dojo.train_weights(player2) : ai_activity == 2 ? Dojo.train_cardio(player2) : Dojo.train_blackjack(player2)
+    if input == "play"
+        puts "you are playing"
+    elsif input == "quit"
+        puts "you are quitting"
+        exit(true)
+    end
 
+    player1 = Fighter.new "Seong Gi-Hun"
     player1.stats
+
+    player2 = Fighter.new "Cho Sang-Woo"
     player2.stats
-    counter += 1
-    p counter
-end
 
-puts "Time to play the game! Press enter to continue."
-gets.chomp
+    counter = 1
+    while counter < 3
+        puts "Training Week ##{counter}.\nWould you like to practice |weights|, |cardio|, or |blackjack|?"
 
-counter = 1
-while player1.life > 0 && player2.life > 0
-    p "Round #{counter} press enter to attack"
+        activity = gets.chomp!.downcase
+        while activity != "weights" && activity != "cardio" && activity != "blackjack"
+            p "Invalid selection. Would you like to practice |weights|, |cardio|, or |blackjack|?"
+            activity = gets.chomp!.downcase
+        end
+
+        activity == "weights" ? Dojo.train_weights(player1) : activity == "cardio" ? Dojo.train_cardio(player1) : Dojo.train_blackjack(player1)
+        
+        ## Trains AI based on random ints.
+        ai_activity = rand(1...3)
+        ai_activity == 1 ? Dojo.train_weights(player2) : ai_activity == 2 ? Dojo.train_cardio(player2) : Dojo.train_blackjack(player2)
+
+        player1.stats
+        player2.stats
+        counter += 1
+        p counter
+    end
+
+    puts "Time to play the game! Press enter to continue."
     gets.chomp
-    player1.attack(player2)
-    player2.attack(player1)
-    player1.life_remaining
-    player2.life_remaining
-    counter += 1
+
+    counter = 1
+    while player1.life > 0 && player2.life > 0
+        p "Round #{counter} press enter to attack"
+        gets.chomp
+        player1.attack(player2)
+        player2.attack(player1)
+        player1.life_remaining
+        player2.life_remaining
+        counter += 1
+    end
+
+    if player1.life < player2.life
+        puts "#{player2.name} Wins"
+    elsif player1.life > player2.life
+        puts "#{player1.name} Wins"
+    else
+        puts "The Match is a Draw"
+    end
+
+    puts "Continue? |yes| or |no|"
+
+    continue = gets.chomp!
+
+    while continue != "yes" && continue != "no"
+        puts "Continue? |yes| or |no|"
+        continue = gets.chomp!
+    end
+
 end
 
-if player1.life < player2.life
-    puts "#{player2.name} Wins"
-elsif player1.life > player2.life
-    puts "#{player1.name} Wins"
-else
-    puts "The Match is a Draw"
-end
 
