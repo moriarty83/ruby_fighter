@@ -58,7 +58,7 @@ class Dojo
         if fighter.strength >= 50 
             puts "#{fighter.name} has maxed out their strength"
         else
-        fighter.strength += (rand(10+fighter.luck...100)/fighter.strength).floor
+        fighter.strength += (rand(1..10+rand(1..fighter.luck)))
         puts "#{fighter.name}'s Strength is now #{fighter.strength}"
 
         end
@@ -69,7 +69,7 @@ class Dojo
         if fighter.defense >= 50 
             puts "#{fighter.name} has maxed out their defense"
         else
-        fighter.defense += (rand(10+fighter.luck...100)/fighter.defense).floor
+        fighter.defense += (rand(1..10+rand(1..fighter.luck)))
         puts "#{fighter.name}'s Defense is now #{fighter.defense}"
         end
     end
@@ -79,8 +79,8 @@ class Dojo
         if fighter.luck >= 50 
             puts "#{fighter.name} has maxed out their luck"
         else
-        fighter.luck += (rand(10+fighter.luck...100)/fighter.luck).floor
-        puts "#{fighter.name}'s Luck is now #{fighter.luck}"
+            fighter.luck += (rand(1..10+rand(1..fighter.luck)))
+            puts "#{fighter.name}'s Luck is now #{fighter.luck}"
         end
     end
 end 
@@ -90,7 +90,10 @@ end
 #######################
 continue = "yes"
 
+## START GAME
 while continue != "no" && continue != "n"
+
+    ## PLAY OR NOT
     puts "Do you want to |play| or |quit|?"
 
     input = gets.chomp
@@ -117,7 +120,9 @@ while continue != "no" && continue != "n"
     player2 = Fighter.new "218"
     player2.stats
 
+    ## TRAINING LOOP
     training_counter = 1
+    puts "Training: train with weights to increase strength, cardio to incraese defense, or blackjack to increase luck."
     while training_counter < 11
         puts "Training Week ##{training_counter}.\nWould you like to practice |weights|, |cardio|, or |blackjack|?"
 
