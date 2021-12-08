@@ -53,9 +53,13 @@ end
 
 class Dojo
 
+    ## Note, the training options have logic built in so if a stat is above 50, it can't be further trained.
+    ## If below 50, the stat is increased by a random number between 1 & 10 + a random number between 1 and the Player's luck.
+
     ## Weights increases strength
     def Dojo.train_weights(fighter)
         if fighter.strength >= 50 
+            
             puts "#{fighter.name} has maxed out their strength"
         else
         fighter.strength += (rand(1..10+rand(1..fighter.luck)))
@@ -67,6 +71,7 @@ class Dojo
     ## Cardio increases defense
     def Dojo.train_cardio(fighter)
         if fighter.defense >= 50 
+            ## No stat can exceed 50.
             puts "#{fighter.name} has maxed out their defense"
         else
         fighter.defense += (rand(1..10+rand(1..fighter.luck)))
@@ -77,6 +82,7 @@ class Dojo
     ## Blackjack increases luck.
     def Dojo.train_blackjack(fighter)
         if fighter.luck >= 50 
+            ## No stat can exceed 50.
             puts "#{fighter.name} has maxed out their luck"
         else
             fighter.luck += (rand(1..10+rand(1..fighter.luck)))
@@ -146,6 +152,7 @@ while continue != "no" && continue != "n"
     puts "Time to play the game! Press enter to continue."
     gets.chomp
 
+    
     round_counter = 1
     while player1.life > 0 && player2.life > 0
         p "Round #{round_counter} press enter to attack"
